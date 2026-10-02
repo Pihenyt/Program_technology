@@ -2,7 +2,10 @@
 
 namespace Bank;
 
-internal class BankAccount
+// Bank account - потомок классa object => можно переопределить
+// вирутальные методы, находящиеся в object
+
+public class BankAccount
 {
     private List<Transaction> _allTransactions = new List<Transaction>();
     public string Owner { get; private set; }
@@ -32,9 +35,9 @@ internal class BankAccount
     public void MakeDeposite(decimal amout, DateTime date, string note)
     {
         if (amout <= 0)
-        { 
-        throw new ArgumentOutOfRangeException
-                (nameof(amout),"Amount of deposite must be positive");
+        {
+            throw new ArgumentOutOfRangeException
+                    (nameof(amout), "Amount of deposite must be positive");
         }
 
         var deposite = new Transaction(amout, date, note);
@@ -74,4 +77,26 @@ internal class BankAccount
         return report.ToString();
     }
 
+    // Ключевое слово Virtual позволяет в дочернем классе
+    // предоставить другую реализацию
+    // метода PerformMonthAndTransactions
+    public virtual void PerformMonthAndTransactions()
+    {
+
+    }
+    // переопределяем метод, который унаследовали от object
+    // этот метод должен возвращать строку с состоянием объекта
+    //public override string ToString()
+    //{
+    //    return $"Type:{GetType().Name}\t" +
+    //        $"Owner: {Owner}\t" +
+    //        $"Number of acccount:{Number}\t" +
+    //        $"Balance: {Balance}";
+
+    //}
+    public override string ToString()
+        => $"type: {GetType().Name}\t" +
+        $"Owner: {Owner}\t" +
+        $"Number of account: {Number}\t" +
+        $"Balance: {Balance}";
 }

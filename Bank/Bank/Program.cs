@@ -24,7 +24,13 @@
             {
                 Console.WriteLine(e.Message);
             }
-
+            InterestEarningAcccount insterestEarning = new("Sasha", 1000m);
+            insterestEarning.MakeDeposite(1000m, DateTime.UtcNow, ";)");
+            insterestEarning.MakeWithdrawal(10m, DateTime.UtcNow, ";(");
+            insterestEarning.PerformMonthAndTransactions();
+            Console.WriteLine(insterestEarning);
+            // == Console.WriteLine(insterestEarning.Tostring());
+            Console.WriteLine(insterestEarning.GetAccountHistory());
         }
     }
 }
