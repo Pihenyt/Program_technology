@@ -2,71 +2,69 @@
 
 namespace Bank;
 
-// Bank account - потомок классa object => можно переопределить
-// вирутальные методы, находящиеся в object
 
+// потомок класса object => можно переопределить 
+// виртуальные методы, находящиеся в object
 public class BankAccount
 {
-    private List<Transaction> _allTransactions = new List<Transaction>();
-    public string Owner { get; private set; }
+    static private int s_accountNuberSeed = 1000000000;
     public string Number { get; }
+    public string Owner { get; private set; }
     public decimal Balance
     {
         get
         {
             decimal balance = 0;
-            foreach (var transaction in _allTransactions)
+            foreach (var item in _allTransactions)
             {
-                balance += transaction.Amount;
+                balance += item.Amount;
             }
+
             return balance;
         }
     }
-    private static int s_accountNumberSeed = 1000000000;
+
+    private List<Transaction> _allTransactions = new List<Transaction>();
+
     public BankAccount(string name, decimal initialBalance)
     {
 
-        MakeDeposite(initialBalance, DateTime.UtcNow, "initial balance"); // this.Balance = initialBalance;
-        Owner = name;
-        Number = s_accountNumberSeed.ToString();
-        s_accountNumberSeed++;
+        Owner = name; // this.Owner = name
+        MakeDeposit(initialBalance, DateTime.UtcNow, "Initial balance");
+        Number = s_accountNuberSeed.ToString();
+        s_accountNuberSeed++;
+    }
+    public void MakeDeposit(decimal amount, DateTime date, string note)
+    {
+        if (amount <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(amount), "Amount of deposit must be positive");
+        }
+
+        var deposit = new Transaction(amount, date, note);
+        _allTransactions.Add(deposit);
     }
 
-    public void MakeDeposite(decimal amout, DateTime date, string note)
+    public void MakeWithdrawal(decimal amount, DateTime date, string note)
     {
-        if (amout <= 0)
+        if (amount <= 0)
         {
-            throw new ArgumentOutOfRangeException
-                    (nameof(amout), "Amount of deposite must be positive");
+            throw new ArgumentOutOfRangeException(nameof(amount), "Amount of withdrawal must be positive");
         }
 
-        var deposite = new Transaction(amout, date, note);
-        _allTransactions.Add(deposite);
-    }
-
-    public void MakeWithdrawal(decimal amout, DateTime date, string note)
-    {
-        if (amout <= 0)
+        if (Balance < amount)
         {
-            throw new ArgumentOutOfRangeException
-                    (nameof(amout), "Amount of withdrawal must be positive");
-        }
-        if (Balance < amout)
-        {
-            throw new InvalidOperationException
-                    ("Not sufficient money for this withdrawal");
+            throw new InvalidOperationException("Not sufficient rubls for this withdawal");
         }
 
-        var withdrawal = new Transaction(-amout, date, note);
+        var withdrawal = new Transaction(-amount, date, note);
         _allTransactions.Add(withdrawal);
     }
-
     public string GetAccountHistory()
     {
         var report = new StringBuilder();
-
         decimal balance = 0;
-        report.AppendLine("Data\t\tAmount\tBalance\tNote");
+        report.Append("Data\t\tAmount]tBalance\tNote");
         foreach (var item in _allTransactions)
         {
             balance += item.Amount;
@@ -76,27 +74,20 @@ public class BankAccount
         }
         return report.ToString();
     }
-
-    // Ключевое слово Virtual позволяет в дочернем классе
-    // предоставить другую реализацию
-    // метода PerformMonthAndTransactions
+    // Ключевое слово virtual позволяет в дочернем классе
+    // предоставить другую реализацию 
+    // Метода PerformMonthAndTransactions
     public virtual void PerformMonthAndTransactions()
     {
 
     }
-    // переопределяем метод, который унаследовали от object
-    // этот метод должен возвращать строку с состоянием объекта
+
+    // переопределяем метод базового класса - класса object 
+    // toString возвращает строку с информацией об объекте
     //public override string ToString()
     //{
-    //    return $"Type:{GetType().Name}\t" +
-    //        $"Owner: {Owner}\t" +
-    //        $"Number of acccount:{Number}\t" +
-    //        $"Balance: {Balance}";
-
+    //    return $"Type:{GetType().Name}\tOwner:{Owner}\tNumber of account:{Number}\tBalance:{Balance}";
     //}
     public override string ToString()
-        => $"type: {GetType().Name}\t" +
-        $"Owner: {Owner}\t" +
-        $"Number of account: {Number}\t" +
-        $"Balance: {Balance}";
+    => $"Type:{GetType().Name}\tOwner:{Owner}\tNumber of account:{Number}\tBalance:{Balance}";
 }
