@@ -1,17 +1,17 @@
-﻿namespace LabApp
+﻿namespace labaratory_L
 {
     /// <summary>
-    /// Статус лабораторного оборудования.
+    /// Operational status of laboratory equipment.
     /// </summary>
     public enum EquipmentStatus
     {
-        /// <summary>Оборудование готово к работе.</summary>
+        /// <summary>Equipment is ready to use.</summary>
         Ready,
 
-        /// <summary>Оборудование проходит калибровку.</summary>
+        /// <summary>Equipment is being calibrated.</summary>
         Calibrating,
 
-        /// <summary>Оборудование неисправно.</summary>
+        /// <summary>Equipment is broken.</summary>
         Broken
     }
 }

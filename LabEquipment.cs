@@ -1,39 +1,39 @@
-﻿namespace LabApp
+﻿namespace Labaratory_L
 {
     /// <summary>
-    /// Абстрактный базовый класс для всего лабораторного оборудования.
+    /// Base abstract class for all laboratory equipment.
     /// </summary>
     public abstract class LabEquipment
     {
         private readonly int _id;
 
         /// <summary>
-        /// Название оборудования.
+        /// Equipment name.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Погрешность измерений: чем меньше значение, тем точнее прибор.
+        /// Measurement error: the smaller the value, the more precise the device.
         /// </summary>
         public double Accuracy { get; set; }
 
         /// <summary>
-        /// Текущий статус оборудования. По умолчанию Ready.
+        /// Current status of the equipment. Ready by default.
         /// </summary>
         public EquipmentStatus Status { get; set; } = EquipmentStatus.Ready;
 
         /// <summary>
-        /// Уникальный идентификатор (только чтение, хранится в приватном поле).
+        /// Unique identifier (read-only, stored in a private field).
         /// </summary>
         public int Id => _id;
 
         /// <summary>
-        /// Признак точного прибора: погрешность меньше 0.01.
+        /// True if the accuracy value is less than 0.01.
         /// </summary>
         public bool IsPrecise => Accuracy < 0.01;
 
         /// <summary>
-        /// Создаёт оборудование с полным набором данных.
+        /// Creates equipment with all data specified.
         /// </summary>
         protected LabEquipment(int id, string name, double accuracy)
         {
@@ -43,14 +43,14 @@
         }
 
         /// <summary>
-        /// Создаёт оборудование только по названию (id = 0, погрешность = 1.0).
+        /// Creates equipment by name only (id = 0, accuracy = 1.0).
         /// </summary>
         protected LabEquipment(string name) : this(0, name, 1.0)
         {
         }
 
         /// <summary>
-        /// Выполняет измерение. Обязателен к переопределению в наследниках.
+        /// Performs a measurement. Must be overridden in derived classes.
         /// </summary>
         public abstract void Measure();
     }
