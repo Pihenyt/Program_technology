@@ -28,6 +28,7 @@ public static class TransferService
         {
             destination.MakeDeposit(amount, date, $"Transfer from account #{source.Number}");
         }
+
         catch (Exception)
         {
             // Откат транзакции списания при ошибке пополнения
