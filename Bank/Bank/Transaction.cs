@@ -1,21 +1,11 @@
-﻿namespace Bank;
-/// <summary>
-/// Тип данных, который запрещает менять состояние объекта
-/// </summary>
-/// <param name="Amount"> сумма транзакции </param>
-/// <param name="Date"> дата транзации </param>
-/// <param name="Note"> заметка транзакции </param>
-public record Transaction(decimal Amount, DateTime Date, string Note);
+﻿using System;
 
-//internal record Transaction
-//{
-//    public decimal Amount { get; }
-//    public DateTime Date { get; }
-//    public string Note { get; }
-//    public Transaction(decimal Amount, DateTime Date, string Note)
-//    {
-//        this.Amount = Amount;
-//        this.Date = Date;
-//        this.Note = Note;
-//    }
-//}
+namespace Bank;
+
+/// <summary>
+/// Представляет неизменяемую запись о проведенной транзакции на счете.
+/// </summary>
+/// <param name="Amount">Сумма транзакции (положительная при зачислении, отрицательная при списании).</param>
+/// <param name="Date">Дата и время совершения транзакции.</param>
+/// <param name="Note">Описание или комментарий к транзакции.</param>
+public record Transaction(decimal Amount, DateTime Date, string Note);
